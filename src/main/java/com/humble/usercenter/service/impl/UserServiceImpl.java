@@ -16,6 +16,8 @@ import org.springframework.util.DigestUtils;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.humble.usercenter.constant.UserConstant.USER_LOGIN_STATE;
+
 /**
 * @author hongbohu
 * 用户服务实现类
@@ -35,10 +37,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
      */
     private static final String SALT = "humble";
 
-    /**
-     * 用户登录态键
-     */
-    private static final String USER_LOGIN_STATE = "userLoginState";
 
     @Override
     public long userRegister(String userAccount, String userPassword, String checkPassword) {
