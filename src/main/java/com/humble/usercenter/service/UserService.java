@@ -2,6 +2,7 @@ package com.humble.usercenter.service;
 
 import com.humble.usercenter.model.domain.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
 * 用户服务
@@ -26,5 +27,5 @@ public interface UserService extends IService<User> {
      * @param userPassword user password
      * @return 返回脱敏后的用户信息
      */
-    User dologin(String userAccount, String userPassword);
+    User userLogin(String userAccount, String userPassword, HttpServletRequest httpServletRequest);
 }
