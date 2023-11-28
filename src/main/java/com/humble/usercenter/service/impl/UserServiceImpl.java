@@ -1,5 +1,4 @@
 package com.humble.usercenter.service.impl;
-import java.util.Date;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -115,21 +114,32 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         // 这里可补充的点：限流 一个ip登录次数过多 进行限流
 
         // 3. 用户脱敏
-        User safeUser = new User();
-        // generate all setter with default value
-        safeUser.setId(user.getId());
-        safeUser.setUsername(user.getUsername());
-        safeUser.setUserAccount(user.getUserAccount());
-        safeUser.setAvatarUrl(user.getAvatarUrl());
-        safeUser.setGender(user.getGender());
-        safeUser.setPhone(user.getPhone());
-        safeUser.setEmail(user.getEmail());
-        safeUser.setUserStatus(user.getUserStatus());
-        safeUser.setCreateTime(user.getCreateTime());
+        User safeUser = getSafeUser(user);
         // 4. 登录成功 记录用户的登录态
         request.getSession().setAttribute(USER_LOGIN_STATE, safeUser); //.setAttribute(key, value)
         return safeUser;
+    }
 
+    /**
+     * 用户脱敏
+     * @param originUser 查询出来的user
+     * @return 封装后去除密码的用户信息
+     */
+    @Override
+    public User getSafeUser(User originUser) {
+        User safeUser = new User();
+        // generate all setter with default value
+        safeUser.setId(originUser.getId());
+        safeUser.setUsername(originUser.getUsername());
+        safeUser.setUserAccount(originUser.getUserAccount());
+        safeUser.setAvatarUrl(originUser.getAvatarUrl());
+        safeUser.setGender(originUser.getGender());
+        safeUser.setPhone(originUser.getPhone());
+        safeUser.setEmail(originUser.getEmail());
+        safeUser.setUserRole(originUser.getUserRole());
+        safeUser.setUserStatus(originUser.getUserStatus());
+        safeUser.setCreateTime(originUser.getCreateTime());
+        return safeUser;
     }
 }
 
