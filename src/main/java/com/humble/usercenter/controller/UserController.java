@@ -61,6 +61,19 @@ public class UserController {
         return user;
     }
 
+    @GetMapping("/current")
+    public User getCurrentUser(HttpServletRequest request) {
+        Object userObj = request.getSession().getAttribute(USER_LOGIN_STATE); // 获取用户登录态
+        User currentUser = (User) userObj;
+        if (currentUser == null) {
+            return null;
+        }
+        long userId = currentUser.getId();
+        // todo 校验用户是否合法
+        User user = userService.getById(userId);
+        return userService.getSafeUser(user);
+    }
+
     @GetMapping("/search")
     public List<User> searchUsers(String username, HttpServletRequest request) { // get请求 数据通过url传递 不包含请求体不需要@RequestBody注解
         // 鉴权 仅管理员可查询

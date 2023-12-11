@@ -127,6 +127,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
      */
     @Override
     public User getSafeUser(User originUser) {
+        if (originUser == null) {
+            return null;
+        }
         User safeUser = new User();
         // generate all setter with default value
         safeUser.setId(originUser.getId());
